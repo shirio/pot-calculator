@@ -72,6 +72,11 @@ export default function App() {
               onPlayerChange={handlePlayerChange}
               onHeroChange={setHeroIndex}
             />
+            <PokerTable
+              players={players}
+              heroIndex={heroIndex}
+              totalPot={totalPot}
+            />
           </div>
 
           <div className="space-y-4">
@@ -79,11 +84,6 @@ export default function App() {
               totalPot={totalPot}
               activeTableBet={activeTableBet}
               alreadyCommitted={alreadyCommitted}
-            />
-            <PokerTable
-              players={players}
-              heroIndex={heroIndex}
-              totalPot={totalPot}
             />
           </div>
         </div>
