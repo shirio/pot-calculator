@@ -24,10 +24,10 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
         <ellipse cx="350" cy="200" rx="315" ry="175" fill="none" stroke="#3b5fc0" strokeWidth="2" />
 
         {/* Pot display */}
-        <text x="350" y="188" textAnchor="middle" fill="#fbbf24" fontSize="13" fontWeight="bold" fontFamily="monospace">
+        <text x="350" y="186" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="monospace">
           POT
         </text>
-        <text x="350" y="215" textAnchor="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="monospace">
+        <text x="350" y="218" textAnchor="middle" fill="white" fontSize="29" fontWeight="bold" fontFamily="monospace">
           {fmt(totalPot)}
         </text>
 
@@ -65,7 +65,7 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
               )}
 
               <circle cx={p.x} cy={p.y} r="30" fill={bgColor} stroke={ringColor} strokeWidth={isHero ? 2.5 : 1.5} />
-              <text x={p.x} y={p.y + 1} textAnchor="middle" dominantBaseline="middle" fill={textColor} fontSize="16" fontWeight="bold" fontFamily="monospace">
+              <text x={p.x} y={p.y + 1} textAnchor="middle" dominantBaseline="middle" fill={textColor} fontSize="19" fontWeight="bold" fontFamily="monospace">
                 {p.label}
               </text>
 
@@ -83,7 +83,7 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
                     textAnchor={textAnchor}
                     dominantBaseline="middle"
                     fill="white"
-                    fontSize="17"
+                    fontSize="20"
                     fontWeight="bold"
                     fontFamily="monospace"
                   >
