@@ -1,4 +1,4 @@
-const STREETS = ['preflop', 'flop', 'turn', 'river']
+const STREETS = ['preflop', 'postflop']
 
 export default function GameSetup({ street, smallBlind, bigBlind, numPlayers, basePot, onChange }) {
   return (

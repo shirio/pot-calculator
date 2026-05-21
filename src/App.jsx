@@ -68,6 +68,7 @@ export default function App() {
             <PlayerEditor
               players={players}
               heroIndex={heroIndex}
+              street={street}
               onPlayerChange={handlePlayerChange}
               onHeroChange={setHeroIndex}
             />
