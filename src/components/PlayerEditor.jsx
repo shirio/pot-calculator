@@ -29,13 +29,14 @@ export default function PlayerEditor({ players, heroIndex, street, onPlayerChang
           return (
             <div key={p.id} className="flex items-center gap-2">
               <button
-                onClick={() => onHeroChange(i)}
-                className={`w-14 text-xs font-mono font-bold px-1 py-1 rounded transition-colors ${
+                onClick={() => !p.isFolded && onHeroChange(i)}
+                disabled={p.isFolded}
+                className={`w-14 text-xs font-mono font-bold px-1 py-1 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
                   i === heroIndex
                     ? 'bg-yellow-500 text-gray-900'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
-                title="Set as hero"
+                title={p.isFolded ? 'Folded' : 'Set as hero'}
               >
                 {p.label}
               </button>
