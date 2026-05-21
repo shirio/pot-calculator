@@ -5,10 +5,10 @@ export default function GameSetup({ street, smallBlind, bigBlind, numPlayers, ba
     <div className="bg-gray-800 rounded-xl p-4 space-y-3">
       <h2 className="text-white font-semibold text-sm uppercase tracking-wider">Game Setup</h2>
 
-      <div className="grid grid-cols-2 gap-2">
-        <div>
+      <div className="flex items-end gap-4">
+        <div className="shrink-0">
           <label className="text-gray-400 text-xs mb-1 block">Street</label>
-          <div className="flex gap-1 flex-wrap">
+          <div className="flex gap-1">
             {STREETS.map(s => (
               <button
                 key={s}
@@ -25,9 +25,9 @@ export default function GameSetup({ street, smallBlind, bigBlind, numPlayers, ba
           </div>
         </div>
 
-        <div>
+        <div className="flex-1">
           <label className="text-gray-400 text-xs mb-1 block">Players</label>
-          <div className="flex gap-1 flex-wrap">
+          <div className="flex gap-1">
             {[2,3,4,5,6,7,8,9].map(n => (
               <button
                 key={n}

@@ -75,15 +75,15 @@ export default function App() {
           </div>
 
           <div className="space-y-4">
-            <PokerTable
-              players={players}
-              heroIndex={heroIndex}
-              totalPot={totalPot}
-            />
             <Calculator
               totalPot={totalPot}
               activeTableBet={activeTableBet}
               alreadyCommitted={alreadyCommitted}
+            />
+            <PokerTable
+              players={players}
+              heroIndex={heroIndex}
+              totalPot={totalPot}
             />
           </div>
         </div>

@@ -7,9 +7,8 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
     const angle = (2 * Math.PI * i / numSeats) - Math.PI / 2
     const x = 350 + 280 * Math.cos(angle)
     const y = 200 + 155 * Math.sin(angle)
-    // Chip position: ~65% of way from center to seat
-    const chipX = 350 + 190 * Math.cos(angle)
-    const chipY = 200 + 105 * Math.sin(angle)
+    const chipX = 350 + 195 * Math.cos(angle)
+    const chipY = 200 + 108 * Math.sin(angle)
     return { ...p, x, y, angle, chipX, chipY }
   })
 
@@ -23,10 +22,10 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
         <ellipse cx="350" cy="200" rx="315" ry="175" fill="none" stroke="#2d8a50" strokeWidth="2" />
 
         {/* Pot display */}
-        <text x="350" y="190" textAnchor="middle" fill="#fbbf24" fontSize="13" fontWeight="bold" fontFamily="monospace">
+        <text x="350" y="188" textAnchor="middle" fill="#fbbf24" fontSize="13" fontWeight="bold" fontFamily="monospace">
           POT
         </text>
-        <text x="350" y="210" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold" fontFamily="monospace">
+        <text x="350" y="215" textAnchor="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="monospace">
           {fmt(totalPot)}
         </text>
 
@@ -44,6 +43,12 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
           const dx = 350 + 250 * Math.cos(dAngle)
           const dy = 200 + 140 * Math.sin(dAngle)
 
+          // Chip text goes toward center (left side players → text on right, right side → text on left)
+          const onLeft = Math.cos(p.angle) < -0.1
+          const chipCx = p.chipX + (onLeft ? 10 : -10)
+          const textX = p.chipX + (onLeft ? -4 : 4)
+          const textAnchor = onLeft ? 'end' : 'start'
+
           return (
             <g key={p.id}>
               {showDealer && (
@@ -56,21 +61,30 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
               {/* Seat circle */}
               <circle cx={p.x} cy={p.y} r="30" fill={bgColor} stroke={ringColor} strokeWidth={isHero ? 2.5 : 1.5} />
 
-              {/* Position label — bigger, centered */}
-              <text x={p.x} y={p.y + 5} textAnchor="middle" dominantBaseline="middle" fill={textColor} fontSize="13" fontWeight="bold" fontFamily="monospace">
+              {/* Position label */}
+              <text x={p.x} y={p.y + 1} textAnchor="middle" dominantBaseline="middle" fill={textColor} fontSize="16" fontWeight="bold" fontFamily="monospace">
                 {p.label}
               </text>
 
               {isFolded && (
-                <text x={p.x} y={p.y + 20} textAnchor="middle" fill="#6b7280" fontSize="8">fold</text>
+                <text x={p.x} y={p.y + 22} textAnchor="middle" fill="#6b7280" fontSize="8">fold</text>
               )}
 
-              {/* Bet chip */}
+              {/* Bet chip + amount */}
               {hasChips && (
                 <g>
-                  <circle cx={p.chipX} cy={p.chipY} r="14" fill="#dc2626" stroke="#fca5a5" strokeWidth="1.5" />
-                  <circle cx={p.chipX} cy={p.chipY} r="10" fill="none" stroke="#fca5a5" strokeWidth="1" strokeDasharray="3 2" />
-                  <text x={p.chipX} y={p.chipY + 1} textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="monospace">
+                  <circle cx={chipCx} cy={p.chipY} r="10" fill="#dc2626" stroke="#fca5a5" strokeWidth="1.5" />
+                  <circle cx={chipCx} cy={p.chipY} r="7" fill="none" stroke="#fca5a5" strokeWidth="1" strokeDasharray="3 2" />
+                  <text
+                    x={textX}
+                    y={p.chipY + 1}
+                    textAnchor={textAnchor}
+                    dominantBaseline="middle"
+                    fill="white"
+                    fontSize="17"
+                    fontWeight="bold"
+                    fontFamily="monospace"
+                  >
                     {fmt(p.committed)}
                   </text>
                 </g>
