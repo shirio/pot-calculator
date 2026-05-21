@@ -2,11 +2,18 @@ import { useState } from 'react'
 import { findPercent, findRaiseTo } from '../logic/potCalc.js'
 import FormulaBreakdown from './FormulaBreakdown.jsx'
 
-const PCT_BUTTONS = [25, 33, 50, 67, 75, 100]
+const PCT_BUTTONS = [
+  { value: 25, label: '25%' },
+  { value: 33, label: '33%' },
+  { value: 50, label: '50%' },
+  { value: 67, label: '67%' },
+  { value: 75, label: '75%' },
+  { value: 100, label: 'Pot' },
+]
 
 export default function Calculator({ totalPot, activeTableBet, alreadyCommitted }) {
   const [tab, setTab] = useState('findRaiseTo')
-  const [pctInput, setPctInput] = useState('')
+  const [pctInput, setPctInput] = useState('100')
   const [raiseInput, setRaiseInput] = useState('')
 
   const toCall = activeTableBet - alreadyCommitted
@@ -71,17 +78,17 @@ export default function Calculator({ totalPot, activeTableBet, alreadyCommitted 
           <div>
             <label className="text-gray-400 text-xs mb-1 block">Target pot %</label>
             <div className="flex gap-1 flex-wrap mb-2">
-              {PCT_BUTTONS.map(p => (
+              {PCT_BUTTONS.map(btn => (
                 <button
-                  key={p}
-                  onClick={() => setPctInput(String(p))}
+                  key={btn.value}
+                  onClick={() => setPctInput(String(btn.value))}
                   className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-                    pctInput === String(p)
+                    pctInput === String(btn.value)
                       ? 'bg-green-600 text-white'
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  {p}%
+                  {btn.label}
                 </button>
               ))}
             </div>
