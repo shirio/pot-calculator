@@ -1,5 +1,7 @@
 const fmt = v => v % 1 === 0 ? String(v) : v.toFixed(1)
 
+const BLIND_LABELS = new Set(['SB', 'BB', 'BTN/SB'])
+
 export default function PokerTable({ players, heroIndex, totalPot }) {
   const numSeats = players.length
 
@@ -16,10 +18,10 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
     <div className="bg-gray-800 rounded-xl p-3">
       <svg viewBox="0 0 700 400" className="w-full" style={{ maxHeight: 260 }}>
         {/* Rail */}
-        <ellipse cx="350" cy="200" rx="330" ry="190" fill="#5c3a1e" />
+        <ellipse cx="350" cy="200" rx="330" ry="190" fill="#0a0a0a" />
         {/* Felt */}
-        <ellipse cx="350" cy="200" rx="315" ry="175" fill="#1a6b3a" />
-        <ellipse cx="350" cy="200" rx="315" ry="175" fill="none" stroke="#2d8a50" strokeWidth="2" />
+        <ellipse cx="350" cy="200" rx="315" ry="175" fill="#1e3a8a" />
+        <ellipse cx="350" cy="200" rx="315" ry="175" fill="none" stroke="#3b5fc0" strokeWidth="2" />
 
         {/* Pot display */}
         <text x="350" y="188" textAnchor="middle" fill="#fbbf24" fontSize="13" fontWeight="bold" fontFamily="monospace">
@@ -33,17 +35,21 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
           const isHero = i === heroIndex
           const isFolded = p.isFolded
           const hasChips = !isFolded && p.committed > 0
+          const isBlind = BLIND_LABELS.has(p.label)
 
           const bgColor = isHero ? '#eab308' : isFolded ? '#374151' : '#1f2937'
           const textColor = isHero ? '#1a1a1a' : isFolded ? '#6b7280' : '#f9fafb'
           const ringColor = isHero ? '#fde047' : '#4b5563'
+
+          // Periwinkle for blinds, magenta-pink for others
+          const chipFill = isBlind ? '#818cf8' : '#ec4899'
+          const chipStroke = isBlind ? '#c7d2fe' : '#fbcfe8'
 
           const showDealer = i === 0
           const dAngle = p.angle - 0.25
           const dx = 350 + 250 * Math.cos(dAngle)
           const dy = 200 + 140 * Math.sin(dAngle)
 
-          // Chip text goes toward center (left side players → text on right, right side → text on left)
           const onLeft = Math.cos(p.angle) < -0.1
           const chipCx = p.chipX + (onLeft ? 10 : -10)
           const textX = p.chipX + (onLeft ? -4 : 4)
@@ -58,10 +64,7 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
                 </g>
               )}
 
-              {/* Seat circle */}
               <circle cx={p.x} cy={p.y} r="30" fill={bgColor} stroke={ringColor} strokeWidth={isHero ? 2.5 : 1.5} />
-
-              {/* Position label */}
               <text x={p.x} y={p.y + 1} textAnchor="middle" dominantBaseline="middle" fill={textColor} fontSize="16" fontWeight="bold" fontFamily="monospace">
                 {p.label}
               </text>
@@ -70,11 +73,10 @@ export default function PokerTable({ players, heroIndex, totalPot }) {
                 <text x={p.x} y={p.y + 22} textAnchor="middle" fill="#6b7280" fontSize="8">fold</text>
               )}
 
-              {/* Bet chip + amount */}
               {hasChips && (
                 <g>
-                  <circle cx={chipCx} cy={p.chipY} r="10" fill="#dc2626" stroke="#fca5a5" strokeWidth="1.5" />
-                  <circle cx={chipCx} cy={p.chipY} r="7" fill="none" stroke="#fca5a5" strokeWidth="1" strokeDasharray="3 2" />
+                  <circle cx={chipCx} cy={p.chipY} r="10" fill={chipFill} stroke={chipStroke} strokeWidth="1.5" />
+                  <circle cx={chipCx} cy={p.chipY} r="7" fill="none" stroke={chipStroke} strokeWidth="1" strokeDasharray="3 2" />
                   <text
                     x={textX}
                     y={p.chipY + 1}
